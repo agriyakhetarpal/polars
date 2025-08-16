@@ -68,6 +68,9 @@ jobs:
             for patch in pyodide-patches/emsdk/patches/*.patch; do
               patch -p1 --verbose -d /home/runner/.cache/cibuildwheel/emsdk-4.0.9/emsdk-4.0.9/upstream/emscripten/ < "$patch"
             done
+
+            # Add Rust target
+            rustup target add wasm32-unknown-emscripten
           CIBW_CONFIG_SETTINGS_PYODIDE: "build-args=--profile=dev build-args=--manifest-path=Cargo.toml"
           # CIBW_TEST_REQUIRES: pytest numpy pandas
           # CIBW_TEST_COMMAND: pytest --pyargs polars
