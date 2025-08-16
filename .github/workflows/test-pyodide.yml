@@ -77,6 +77,7 @@ jobs:
 
       - name: Upload wheel
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: pyodide-wasm-wheel
           path: wasm-dist/*.whl
