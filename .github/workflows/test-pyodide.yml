@@ -70,8 +70,11 @@ jobs:
               patch -p1 --verbose -d /home/runner/.cache/cibuildwheel/emsdk-4.0.9/emsdk-4.0.9/upstream/emscripten/ < "$patch"
             done
 
-            # Install Pyodide's Rust sysroot
-            RUST_EMSCRIPTEN_TARGET_URL="https://github.com/pyodide/rust-emscripten-wasm-eh-sysroot/releases/download/emcc-4.0.9_$RUST_TOOLCHAIN/emcc-4.0.9_$RUST_TOOLCHAIN.tar.bz2"
+            # Add Rust target
+            rustup target add wasm32-unknown-emscripten
+
+            # Install custom Rust sysroot with emscripten-wasm-eh support
+            RUST_EMSCRIPTEN_TARGET_URL="https://github.com/pyodide/rust-emscripten-wasm-eh-sysroot/releases/download/emcc-4.0.9_${RUST_TOOLCHAIN}/emcc-4.0.9_${RUST_TOOLCHAIN}.tar.bz2"
 
             # Install Rust toolchain
             rustup toolchain install $RUST_TOOLCHAIN
@@ -83,7 +86,7 @@ jobs:
             INSTALL_TOKEN="$RUSTLIB/wasm32-unknown-emscripten_install-url.txt"
 
             # Check if custom sysroot is already installed
-            if [[ -f "$INSTALL_TOKEN" ]] && [[ "$(cat "$INSTALL_TOKEN")" == "$RUST_EMSCRIPTEN_TARGET_URL" ]]; then
+            if [ -f "$INSTALL_TOKEN" ] && [ "$(cat "$INSTALL_TOKEN")" = "$RUST_EMSCRIPTEN_TARGET_URL" ]; then
               echo "Custom sysroot already installed"
             else
               echo "Installing custom wasm32-unknown-emscripten sysroot with emscripten-wasm-eh support"
