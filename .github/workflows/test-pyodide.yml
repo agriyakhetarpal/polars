@@ -57,7 +57,7 @@ jobs:
             emsdk/patches/
 
       - name: Build Pyodide wheel
-        uses: agriyakhetarpal/cibuildwheel@bump-dependencies
+        uses: pypa/cibuildwheel@c59c2fe70dc274753955d58191e6d78b83a82336
         with:
           package-dir: py-polars
           output-dir: wasm-dist
@@ -96,7 +96,7 @@ jobs:
               curl -L "$RUST_EMSCRIPTEN_TARGET_URL" | tar -xj -C "$RUSTLIB"
               echo "$RUST_EMSCRIPTEN_TARGET_URL" > "$INSTALL_TOKEN"
             fi
-          CIBW_CONFIG_SETTINGS_PYODIDE: "build-args=--profile=dev build-args=--manifest-path=Cargo.toml"
+          CIBW_CONFIG_SETTINGS_PYODIDE: "build-args=--profile=dist-release build-args=--manifest-path=Cargo.toml"
           CIBW_TEST_REQUIRES: pytest numpy pandas hypothesis matplotlib
           CIBW_TEST_COMMAND: pytest {project}/py-polars/tests
 
