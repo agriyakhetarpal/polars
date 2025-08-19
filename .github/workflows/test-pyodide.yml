@@ -24,7 +24,7 @@ concurrency:
 
 env:
   CARGO_BUILD_JOBS: 1
-  RUSTFLAGS: -C link-self-contained=no -C debuginfo=0 -Zemscripten-wasm-eh
+  RUSTFLAGS: -C link-self-contained=no -C debuginfo=0 -Zemscripten-wasm-eh -C codegen-units=1
   CFLAGS: -fPIC -fwasm-exceptions
   RUST_TOOLCHAIN: nightly-2025-06-27
 
@@ -58,7 +58,7 @@ jobs:
             emsdk/patches/
 
       - name: Build Pyodide wheel
-        uses: pypa/cibuildwheel@c59c2fe70dc274753955d58191e6d78b83a82336
+        uses: pypa/cibuildwheel@v3.1.4
         with:
           package-dir: py-polars
           output-dir: wasm-dist
